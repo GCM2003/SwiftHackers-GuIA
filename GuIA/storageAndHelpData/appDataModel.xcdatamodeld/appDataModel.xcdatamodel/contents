@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="23231" systemVersion="23H527" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="Activities" representedClassName="Activities" syncable="YES" codeGenerationType="class">
+        <attribute name="activitydescription" optional="YES" attributeType="String"/>
+        <attribute name="activityTitle" optional="YES" attributeType="String"/>
+        <attribute name="dueDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+    </entity>
     <entity name="UserData" representedClassName="UserData" syncable="YES" codeGenerationType="class">
+        <attribute name="nativeLanguage" optional="YES" attributeType="String"/>
+        <attribute name="profilePicture" optional="YES" attributeType="Binary"/>
         <attribute name="userBirth" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userEmail" optional="YES" attributeType="String"/>
         <attribute name="userName" optional="YES" attributeType="String"/>
+        <attribute name="userNationality" optional="YES" attributeType="String"/>
     </entity>
 </model>

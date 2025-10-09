@@ -5,7 +5,10 @@
 //  Created by Guillermo Castañeda Mónico on 07/10/25.
 //
 
-//en general esta pantalla sirve para navegación
+/*
+ En general esta pantalla funciona para navegación en la app
+ por medio de la  tabvar
+ */
 import SwiftUI
 
 struct ContentView: View
@@ -13,64 +16,75 @@ struct ContentView: View
     @State var currentView:navigationEnum  = .home  //iniciamos en la pantalla principal
     var body: some View
     {
-        GeometryReader
+        NavigationStack
         {
-            geometry  in
-            
-            ZStack
+            GeometryReader //closure para colocar la barra en la parte inferior de la pantalla
             {
-                switch currentView
-                {
-                case .home:
-                    homeView()
-                case .map:
-                    MapView()
-                case .chatBot:
-                    chatBotView()
-                case .toDoList:
-                    toDoView()
-                }
+                geometry  in // parametro que nos devuelve datos de la pantalla
                 
-                Rectangle()
-                    .stroke(lineWidth: 10)
-                    .foregroundColor(Color("ColorBotones"))
-                    .frame(width: 350,height: 70)
-                    .cornerRadius(15)
-                    .overlay(content: {
-                        HStack
-                        {
-                            Button(action:{
-                                currentView = .map
-                            },label: {
-                                Image(systemName: "house")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 35,height: 35)
-                                    .foregroundColor(Color("ColorBotones"))
-                                    .padding(30)
-                                    })
-                            Button(action:{
-                                currentView = .home
-                            },label: {
-                                Image(systemName: "house")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 35,height: 35)
-                                    .foregroundColor(Color("ColorBotones"))
-                                    .padding(30)
-                                    })
-                            Button(action:{},label: {
-                                Image(systemName: "house")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 35,height: 35)
-                                    .foregroundColor(Color("ColorBotones"))
-                                    .padding(30)
-                                    })
-                        }
-                    })
-                    .position(x:geometry.size.width/2,y:geometry.size.height-30)
+                ZStack
+                {
+                    switch currentView //con el switch cambiamos de vista según el valor de currentView
+                    {
+                    case .home:
+                        homeView()
+                    case .map:
+                        MapView()
+                    case .chatBot:
+                        chatBotView()
+                    case .toDoList:
+                        toDoView()
+                    }
                     
+                    Rectangle() //rectangulo para hacer la barra de navegacion
+                        .foregroundColor(Color("ColorBotones")) //color de la barra
+                        .frame(width: 350,height: 70) //ancho y alto de la barra
+                        .cornerRadius(15) // redondeo
+                        .overlay(content: {
+                            
+                            Rectangle()
+                                .frame(width: 335,height: 55)
+                                .foregroundColor(Color("ColorFondos"))
+                                .cornerRadius(10)
+                                .overlay(content: {
+                                    HStack
+                                    {
+                                        Button(action:{
+                                            currentView = .map
+                                        },label: {
+                                            Image(systemName: "map")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35,height: 35)
+                                                .foregroundColor(Color("ColorBotones"))
+                                                .padding(30)
+                                        })
+                                        Button(action:{
+                                            currentView = .home
+                                        },label: {
+                                            Image(systemName: "house")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35,height: 35)
+                                                .foregroundColor(Color("ColorBotones"))
+                                                .padding(30)
+                                        })
+                                        Button(action:{
+                                            currentView = .chatBot
+                                        },label:{
+                                            Image(systemName: "message")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 35,height: 35)
+                                                .foregroundColor(Color("ColorBotones"))
+                                                .padding(30)
+                                        })
+                                    }
+                                })
+                        })
+                        .position(x:geometry.size.width/2,y:geometry.size.height-30) //configuramos la posicion de la barra.
+                    
+                }
             }
         }
     }

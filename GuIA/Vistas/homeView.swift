@@ -7,12 +7,109 @@
 
 import SwiftUI
 
-struct homeView: View {
-    var body: some View {
-        ZStack {
-            Color("ColorFondos").ignoresSafeArea()
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct homeView: View
+{
+    var body: some View
+    {
+        GeometryReader
+        {
+            geometry in
+            ZStack
+            {
+                Color("ColorFondos").ignoresSafeArea()
+                VStack
+                {
+                    NavigationLink(destination: {toDoView()}, label: {
+                        Rectangle()
+                            .foregroundColor(Color("HomeButtons"))
+                            .frame(width: 350,height: 150)
+                            .cornerRadius(20)
+                            .overlay(content: {
+                                Rectangle()
+                                    .frame(width: 330,height: 130)
+                                    .foregroundColor(Color("ColorFondos"))
+                                    .cornerRadius(20)
+                                    .overlay(content: {
+                                        HStack
+                                        {
+                                            Image(systemName: "list.clipboard").resizable().scaledToFit().frame(width: 90,height: 90).foregroundColor(Color("ColorBotones"))
+                                                .padding(.trailing,30)
+                                            Text("Itinerario")
+                                                .padding(.trailing,70)
+                                                .foregroundColor(Color("HomeButtons"))
+                                                .bold()
+                                                .font(.system(size: 30))
+                                        }
+                                    })
+                            })
+                    }).padding(.bottom,30)
+                    
+                    //el siguiente navigtion link puede ir a una pantalla con recomendaciones locales
+                    NavigationLink(destination: {toDoView()}, label: {
+                        Rectangle()
+                            .foregroundColor(Color("HomeButtons"))
+                            .frame(width: 350,height: 150)
+                            .cornerRadius(20)
+                            .overlay(content: {
+                                Rectangle()
+                                    .frame(width: 330,height: 130)
+                                    .foregroundColor(Color("ColorFondos"))
+                                    .cornerRadius(20)
+                                    .overlay(content: {
+                                        HStack
+                                        {
+                                            Image(systemName: "lightbulb.min").resizable().scaledToFit().frame(width: 90,height: 90).foregroundColor(Color("ColorBotones"))
+                                                .padding(.trailing,30)
+                                            Text("Sitios \n locales")
+                                                .padding(.trailing,70)
+                                                .foregroundColor(Color("HomeButtons"))
+                                                .bold()
+                                                .font(.system(size: 30))
+                                        }
+                                    })
+                            })
+                    }).padding(.bottom,30)
+                    
+                    //el siguiente boton es solo decoración
+                    Button(action:{} , label: {
+                        Rectangle()
+                            .foregroundColor(Color("HomeButtons"))
+                            .frame(width: 350,height: 150)
+                            .cornerRadius(20)
+                            .overlay(content: {
+                                Rectangle()
+                                    .frame(width: 330,height: 130)
+                                    .foregroundColor(Color("ColorFondos"))
+                                    .cornerRadius(20)
+                                    .overlay(content: {
+                                        HStack
+                                        {
+                                            Image(systemName: "person.3.sequence").resizable().scaledToFit().frame(width: 90,height: 90).foregroundColor(Color("ColorBotones"))
+                                                .padding(.trailing,30)
+                                            Text("Social")
+                                                .padding(.trailing,70)
+                                                .foregroundColor(Color("HomeButtons"))
+                                                .bold()
+                                                .font(.system(size: 30))
+                                        }
+                                    })
+                            })
+                    }).padding(.bottom,10)
+                    
+                    
+                }
+                
+                NavigationLink(destination: {settingsView()}, label: {
+                    Image(systemName:"person.circle")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 70,height: 70)
+                        .foregroundColor(Color("ColorBotones"))
+                }).position(x:geometry.size.width-50,y:35)
+            }
+            
         }
+        
     }
 }
 

@@ -103,9 +103,9 @@ struct homeView: View
                     Image(systemName:"person.circle")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 70,height: 70)
+                        .frame(width: 50,height: 50)
                         .foregroundColor(Color("ColorBotones"))
-                }).position(x:geometry.size.width-50,y:35)
+                }).position(x:geometry.size.width-50,y:50)
             }
             
         }

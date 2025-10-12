@@ -19,7 +19,7 @@ struct homeView: View
                 Color("ColorFondos").ignoresSafeArea()
                 VStack
                 {
-                    NavigationLink(destination: {toDoView()}, label: {
+                    NavigationLink(destination: {toDoView(aceptadas: .constant([]))}, label: {
                         Rectangle()
                             .foregroundColor(Color("HomeButtons"))
                             .frame(width: 350,height: 150)
@@ -45,7 +45,7 @@ struct homeView: View
                     }).padding(.bottom,30)
                     
                     //el siguiente navigtion link puede ir a una pantalla con recomendaciones locales
-                    NavigationLink(destination: {toDoView()}, label: {
+                    NavigationLink(destination: {toDoView(aceptadas: .constant([]))}, label: {
                         Rectangle()
                             .foregroundColor(Color("HomeButtons"))
                             .frame(width: 350,height: 150)

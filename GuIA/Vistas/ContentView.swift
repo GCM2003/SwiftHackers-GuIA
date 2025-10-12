@@ -12,6 +12,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var cards = cardsData() //para tema cartas de lo que agrego dani
     @State var currentView:navigationEnum = .home //iniciamos en la pantalla principal
     var body: some View {
         NavigationStack {
@@ -23,9 +24,10 @@ struct ContentView: View {
                 {
                 case .home:
                     homeView()
+                        .environmentObject(cards) // compartimos el objeto cards de tipo cardsData con homeView
                 case .map: MapView()
                 case .chatBot: chatBotView()
-                    case .toDoList: toDoView() }
+                }
                 Rectangle() //rectangulo para hacer la barra de navegacion
                     .foregroundColor(Color("ColorBotones")) //color de la barra
                     .frame(width: 350,height: 70) //ancho y alto de la barra

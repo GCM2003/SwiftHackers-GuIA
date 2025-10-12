@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct settingsView: View {
-    @State private var nombre: String = "Juan López Granados"
+    @State private var nombre: String = "Juan López Menendez"
     @State private var correo: String = "juangranados@gmail.com"
     @State private var numero: String = "55-1234-5678"
     @State private var gustos: String = "Comida mexicana, viajes"

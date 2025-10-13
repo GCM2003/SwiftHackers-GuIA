@@ -70,8 +70,10 @@ struct homeView: View
                             })
                     }).padding(.bottom,30)
                     
-                    //el siguiente boton es solo decoración
-                    Button(action:{} , label: {
+                    
+                    NavigationLink(destination: {
+                        recommendationsView()
+                    }, label: {
                         Rectangle()
                             .foregroundColor(Color("HomeButtons"))
                             .frame(width: 350,height: 150)

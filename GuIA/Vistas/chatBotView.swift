@@ -7,112 +7,96 @@
 
 import SwiftUI
 
-
-struct ChatMessage: Identifiable {
-    let id = UUID()
-    let text: String
-    let isUser: Bool
-}
-
 struct chatBotView: View {
-    @State private var messages: [ChatMessage] = [
-        ChatMessage(text: "Hola soy tu asistente, ¿en qué te puedo ayudar?", isUser: false)
-    ]
-    @State private var currentInput: String = ""
+    // Usamos @StateObject para crear y mantener viva una instancia del ViewModel.
+    @StateObject private var viewModel = ChatViewModel()
+    
+    @State private var userInput: String = ""
     
     var body: some View {
-        ZStack {
-            // Fondo igual que homeView
-            Color("ColorFondos").ignoresSafeArea()
-            
-            VStack {
-                // Header
-                Text("Tu concierge IA")
-                    .font(.headline)
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(Color("HomeButtons"))
-                    .foregroundColor(Color("ColorFondos"))
+        // ✅ Para que el título se vea correctamente, la vista debe estar dentro de un NavigationView
+        NavigationView {
+            VStack(spacing: 0) { // Usamos spacing: 0 para controlar el layout precisamente
                 
-                // Mensajes
-                ScrollView {
-                    VStack(spacing: 20) {
-                        ForEach(messages) { msg in
-                            HStack {
-                                if msg.isUser { Spacer() }
-                                
-                                ChatBubble(text: msg.text, isUser: msg.isUser)
-                                
-                                if !msg.isUser { Spacer() }
+                // MARK: - Lista de Mensajes
+                ScrollViewReader { scrollViewProxy in
+                    ScrollView {
+                        // Usamos un LazyVStack para mejorar el rendimiento con muchos mensajes
+                        LazyVStack {
+                            ForEach(viewModel.conversation) { msg in
+                                MessageView(message: msg)
+                                    .id(msg.id)
                             }
                         }
                     }
-                    .padding(10)
+                    // ✅ Sintaxis moderna y limpia para el onChange
+                    .onChange(of: viewModel.conversation) {
+                        guard let lastMessage = viewModel.conversation.last else { return }
+                        withAnimation {
+                            scrollViewProxy.scrollTo(lastMessage.id, anchor: .bottom)
+                        }
+                    }
                 }
                 
-                .safeAreaInset(edge: .bottom) {
-                    HStack {
-                        TextField("Escribe tu mensaje...", text: $currentInput)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        Button("Enviar") {
-                            sendMessage()
-                        }
-                        .padding(.horizontal)
-                        .foregroundColor(Color("ColorFondos"))
-                        .background(Color("HomeButtons"))
-                        .cornerRadius(10)
-                    }
-                    .padding()
-                    .background(Color("ColorFondos"))
-                    .padding(.bottom, 80) // 👈 margen extra por tu barra personalizada
+                // MARK: - Indicador de Carga
+                if viewModel.isLoading {
+                    ProgressView("Esperando respuesta...")
+                        .padding(.top, 10)
                 }
+                
+                // MARK: - Campo de Entrada y Botón
+                HStack {
+                    TextField("Escribe tu mensaje...", text: $userInput)
+                        .textFieldStyle(.roundedBorder)
+                        .disabled(viewModel.isLoading)
+                    
+                    Button(action: {
+                        viewModel.sendMessage(userInput)
+                        userInput = ""
+                    }) {
+                        Image(systemName: "arrow.up.circle.fill")
+                            .font(.title)
+                            .foregroundColor(userInput.isEmpty ? .gray : .blue) // Color dinámico
+                    }
+                    .disabled(userInput.isEmpty || viewModel.isLoading)
+                }
+                .padding()
+                .padding(.bottom, 50) // ✅ Respetamos un padding inferior generoso
+            }
+            .navigationTitle("Asistente Virtual")
+            .navigationBarTitleDisplayMode(.inline) // Título más compacto
+        }
+    }
+}
+
+// MARK: - Vista de un solo mensaje
+// Tu MessageView está perfecta, no necesita cambios.
+struct MessageView: View {
+    let message: Message
+
+    var body: some View {
+        HStack {
+            if message.role == .user {
+                Spacer()
+                Text(message.message)
+                    .padding(12)
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
+            } else {
+                Text(message.message)
+                    .padding(12)
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(12)
+                Spacer()
             }
         }
-    }
-    
-    func sendMessage() {
-        guard !currentInput.isEmpty else { return }
-        messages.append(ChatMessage(text: currentInput, isUser: true))
-        currentInput = ""
-        
-        // Respuesta simulada
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            messages.append(ChatMessage(text: "Estoy procesando tu solicitud...", isUser: false))
-        }
+        .padding(.horizontal)
+        .padding(.vertical, 4)
     }
 }
 
-struct ChatBubble: View {
-    let text: String
-    let isUser: Bool
-    
-    var body: some View {
-        ZStack {
-            // Rectángulo exterior
-            Rectangle()
-                .foregroundColor(Color("HomeButtons"))
-                .frame(width: 250, height: 100)
-                .cornerRadius(20)
-                .overlay(
-                    // Rectángulo interior
-                    Rectangle()
-                        .frame(width: 230, height: 80)
-                        .foregroundColor(Color("ColorFondos"))
-                        .cornerRadius(20)
-                        .overlay(
-                            Text(text)
-                                .foregroundColor(Color("HomeButtons"))
-                                .bold()
-                                .font(.system(size: 16))
-                                .padding()
-                                .multilineTextAlignment(.leading)
-                        )
-                )
-        }
-    }
-}
-
+// MARK: - Preview
 #Preview {
     chatBotView()
 }

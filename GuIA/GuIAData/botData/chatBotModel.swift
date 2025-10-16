@@ -28,7 +28,8 @@ struct Message: Identifiable, Equatable //estructura que seguira cada objeto men
 }
 
 @MainActor
-class ChatViewModel: ObservableObject {
+class ChatViewModel: ObservableObject
+{
     @Published var conversation: [Message] = []
     @Published var isLoading = false
 
@@ -39,9 +40,8 @@ class ChatViewModel: ObservableObject {
         // Esto le dice a Firebase que use el backend de "Google AI" (el de desarrollador).
         let ai = FirebaseAI.firebaseAI(backend: .googleAI())
         
-        // Creamos el modelo a partir de ese servicio.
-        // Usamos "gemini-1.5-flash-latest", que es rápido y potente.
-        self.generativeModel = ai.generativeModel(modelName: "gemini-1.5-flash-latest")
+        // Creamos el modelo a partir de ese servicio
+        self.generativeModel = ai.generativeModel(modelName: "gemini-2.5-flash-lite")
         
         startNewChat()
     }
@@ -65,7 +65,7 @@ class ChatViewModel: ObservableObject {
         Task {
             do {
                 let systemPrompt = """
-                Eres 'GuIA', un asistente virtual experto y amigable enfocado en tres áreas clave para un usuario en México:
+                Eres 'Axolote', un asistente virtual experto y amigable enfocado en tres áreas clave para un usuario en México:
                 1. Turismo: Proporciona recomendaciones detalladas.
                 2. Comercio local: Recomienda negocios locales y mercados.
                 3. Seguridad: Ofrece consejos prácticos y claros.

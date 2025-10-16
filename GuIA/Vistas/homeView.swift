@@ -9,6 +9,7 @@ import SwiftUI
 
 struct homeView: View
 {
+    @EnvironmentObject var cards: cardsData
     var body: some View
     {
         GeometryReader
@@ -19,7 +20,8 @@ struct homeView: View
                 Color("ColorFondos").ignoresSafeArea()
                 VStack
                 {
-                    NavigationLink(destination: {toDoView(aceptadas: .constant([]))}, label: {
+                    NavigationLink(destination: {toDoView()
+                        .environmentObject(cards)}, label: {
                         Rectangle()
                             .foregroundColor(Color("HomeButtons"))
                             .frame(width: 350,height: 150)
@@ -45,7 +47,8 @@ struct homeView: View
                     }).padding(.bottom,30)
                     
                     //el siguiente navigtion link puede ir a una pantalla con recomendaciones locales
-                    NavigationLink(destination: {toDoView(aceptadas: .constant([]))}, label: {
+                    NavigationLink(destination: {toDoView()
+                        .environmentObject(cards)}, label: {
                         Rectangle()
                             .foregroundColor(Color("HomeButtons"))
                             .frame(width: 350,height: 150)
@@ -73,6 +76,7 @@ struct homeView: View
                     
                     NavigationLink(destination: {
                         recommendationsView()
+                            .environmentObject(cards)
                     }, label: {
                         Rectangle()
                             .foregroundColor(Color("HomeButtons"))

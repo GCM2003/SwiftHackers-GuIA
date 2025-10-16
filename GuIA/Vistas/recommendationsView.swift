@@ -15,62 +15,40 @@ struct SwipeCardModel: Identifiable, Hashable {
 }
 
 struct recommendationsView: View {
-    // Tarjetas iniciales
-    let todasLasTarjetas: [SwipeCardModel] = [
-        SwipeCardModel(imageName: "frida", descripcion: "Me encanta el aire libre, vivir y disfrutar la naturaleza."),
-        SwipeCardModel(imageName: "carlos", descripcion: "Amante del café y los libros, buscando nuevas aventuras."),
-        SwipeCardModel(imageName: "luna", descripcion: "Fan de los museos, el cine y los paseos nocturnos.")
-    ]
-    
-    @State private var tarjetas: [SwipeCardModel] = []
     @EnvironmentObject var cards: cardsData
-    @State private var rechazadas: [SwipeCardModel] = []
-        
+    
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color("ColorFondos").ignoresSafeArea()
-                
-                if tarjetas.isEmpty {
-                    VStack(spacing: 20) {
-                        Text("Esas fueron todas las recomendaciones por el momento...")
-                            .multilineTextAlignment(.center)
-                            .padding()
-                            .foregroundColor(Color("HomeButtons"))
-                        
-                        NavigationLink(destination: toDoView(aceptadas:$cards.aceptadas)) {
-                            Text("Ver aceptados")
-                                .padding()
-                                .background(Color("HomeButtons"))
-                                .foregroundColor(Color("ColorFondos"))
-                                .cornerRadius(12)
-                        }
+        ZStack {
+            Color("ColorFondos").ignoresSafeArea()
+            
+            if cards.recomendaciones.isEmpty {
+                VStack(spacing: 20) {
+                    Text("Esas fueron todas las recomendaciones por el momento...")
+                        .multilineTextAlignment(.center)
+                        .padding()
+                        .foregroundColor(Color("HomeButtons"))
+                    
+                    Button("Recargar recomendaciones") {
+                        cards.recomendaciones = cards.rechazadas + cards.aceptadas // o lógica de recarga
+                        cards.rechazadas.removeAll()
+                        cards.aceptadas.removeAll()
                     }
-                } else {
-                    ForEach(tarjetas.indices.reversed(), id: \.self) { index in
-                        SwipeableCard(tarjeta: tarjetas[index]) {
-                            cards.aceptadas.append(tarjetas[index])
-                            tarjetas.remove(at: index)
-                        } onReject: {
-                            rechazadas.append(tarjetas[index])
-                            tarjetas.remove(at: index)
-                        }
+                    .padding()
+                    .background(Color("HomeButtons"))
+                    .foregroundColor(Color("ColorFondos"))
+                    .cornerRadius(12)
+                }
+            } else {
+                ForEach(cards.recomendaciones.indices.reversed(), id: \.self) { index in
+                    SwipeableCard(tarjeta: cards.recomendaciones[index]) {
+                        cards.aceptadas.append(cards.recomendaciones[index])
+                        cards.recomendaciones.remove(at: index)
+                    } onReject: {
+                        cards.rechazadas.append(cards.recomendaciones[index])
+                        cards.recomendaciones.remove(at: index)
                     }
                 }
             }
-        }
-    }
-    
-    private func recargarTarjetas() {
-        // Filtra las que no estén en aceptadas ni rechazadas
-        let usadas = Set(cards.aceptadas + rechazadas)
-        let nuevas = todasLasTarjetas.filter { !usadas.contains($0) }
-        
-        if nuevas.isEmpty {
-            // Si ya no hay nuevas, vuelve a mostrar el mensaje
-            tarjetas = []
-        } else {
-            tarjetas = nuevas
         }
     }
 }

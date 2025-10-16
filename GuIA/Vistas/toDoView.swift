@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct toDoView: View {
-    @Binding var aceptadas: [SwipeCardModel]   // Recibe la lista desde recommendationsView
+    @EnvironmentObject var cards: cardsData
     
     var body: some View {
         NavigationStack {
@@ -28,23 +28,20 @@ struct toDoView: View {
                 }
                 .padding()
                 
-                // Lista de aceptados
-                if aceptadas.isEmpty {
-                    Spacer()
-                    Text("Aún no has aceptado ninguna recomendación")
-                        .foregroundColor(Color("HomeButtons"))
-                        .multilineTextAlignment(.center)
-                        .padding()
-                    Spacer()
-                } else {
-                    ScrollView {
-                        VStack(spacing: 20) {
-                            ForEach(aceptadas) { tarjeta in
+                // Lista de aceptados o default
+                ScrollView {
+                    VStack(spacing: 20) {
+                        if cards.aceptadas.isEmpty {
+                            ForEach(cards.defaultList) { tarjeta in
+                                AceptadoCard(tarjeta: tarjeta)
+                            }
+                        } else {
+                            ForEach(cards.aceptadas + cards.defaultList) { tarjeta in
                                 AceptadoCard(tarjeta: tarjeta)
                             }
                         }
-                        .padding()
                     }
+                    .padding()
                 }
             }
             .background(Color("ColorFondos").ignoresSafeArea())
@@ -81,6 +78,6 @@ struct AceptadoCard: View {
 
 #Preview
 {
-    toDoView(aceptadas: .constant([]))
+    toDoView()
 }
 

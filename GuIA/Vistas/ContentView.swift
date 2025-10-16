@@ -11,57 +11,61 @@
  */
 import SwiftUI
 
-struct ContentView: View {
-    @StateObject var cards = cardsData() //para tema cartas de lo que agrego dani
-    @State var currentView:navigationEnum = .home //iniciamos en la pantalla principal
+struct ContentView: View
+{
+    @StateObject var cards = cardsData()
+    @State var currentView: navigationEnum = .home
+    @State private var selectedLocation: Location? = nil
+
     var body: some View {
-        NavigationStack {
-            GeometryReader //closure para colocar la barra en la parte inferior de la pantalla
-            {
-            geometry in // parametro que nos devuelve datos de la pantalla
-            ZStack {
-                switch currentView //con el switch cambiamos de vista según el valor de currentView
-                {
+            ZStack(alignment: .bottom) {
+                
+                // --- CAPA 1: CONTENIDO PRINCIPAL ---
+                switch currentView {
                 case .home:
-                    homeView()
-                        .environmentObject(cards) // compartimos el objeto cards de tipo cardsData con homeView
-                case .map: MapView()
-                case .chatBot: chatBotView()
+                    NavigationStack //pongo el navigaationStack aqui porque se usa en homeView y si lo embebo en el Zstack me daña la vista del  mapa
+                    {
+                        homeView()
+                    }
+                case .map:
+                    // ✅ PASO 2: Pasamos un "binding" ($) al MapView.
+                    // Ahora MapView puede modificar el estado que vive en ContentView.
+                    MapView(selectedLocation: $selectedLocation)
+                case .chatBot:
+                    chatBotView()
                 }
-                Rectangle() //rectangulo para hacer la barra de navegacion
-                    .foregroundColor(Color("ColorBotones")) //color de la barra
-                    .frame(width: 350,height: 70) //ancho y alto de la barra
-                    .cornerRadius(15) // redondeo
-                    .overlay(content: {
-                        Rectangle()
-                            .frame(width: 335,height: 55)
-                            .foregroundColor(Color("ColorFondos"))
-                            .cornerRadius(10)
-                            .overlay(content: {
-                                HStack {
-                                    Button(action:{
-                                        currentView = .map
-                                    },label: {
-                                        Image(systemName: "map") .resizable() .scaledToFit() .frame(width: 35,height: 35) .foregroundColor(Color("ColorBotones")) .padding(30)
-                                    })
-                                    Button(action:{
-                                        currentView = .home
-                                    },label: {
-                                        Image(systemName: "house") .resizable() .scaledToFit() .frame(width: 35,height: 35) .foregroundColor(Color("ColorBotones")) .padding(30)
-                                    })
-                                    Button(action:{
-                                        currentView = .chatBot
-                                    },label:{
-                                        Image(systemName: "message") .resizable() .scaledToFit() .frame(width: 35,height: 35) .foregroundColor(Color("ColorBotones")) .padding(30)
-                                    })
-                                }
-                            })
-                    }).position(x:geometry.size.width/2,y:geometry.size.height-30) //configuramos la posicion de la barra.
+                
+                // --- CAPA 2: BARRA DE NAVEGACIÓN ---
+                // ✅ PASO 3: La barra solo se mostrará si no hay ninguna ubicación seleccionada.
+                if selectedLocation == nil {
+                    Rectangle()
+                        .foregroundColor(Color("ColorBotones"))
+                        .frame(width: 350, height: 70)
+                        .cornerRadius(15)
+                        .overlay(
+                            Rectangle()
+                                .frame(width: 335, height: 55)
+                                .foregroundColor(Color("ColorFondos"))
+                                .cornerRadius(10)
+                                .overlay(
+                                    HStack {
+                                        Button(action: { currentView = .map }) {
+                                            Image(systemName: "map").resizable().scaledToFit().frame(width: 35, height: 35).foregroundColor(Color("ColorBotones")).padding(30)
+                                        }
+                                        Button(action: { currentView = .home }) {
+                                            Image(systemName: "house").resizable().scaledToFit().frame(width: 35, height: 35).foregroundColor(Color("ColorBotones")).padding(30)
+                                        }
+                                        Button(action: { currentView = .chatBot }) {
+                                            Image(systemName: "message").resizable().scaledToFit().frame(width: 35, height: 35).foregroundColor(Color("ColorBotones")).padding(30)
+                                        }
+                                    }
+                                )
+                        )
+                        .padding(.bottom, 10)
+                        .transition(.move(edge: .bottom).combined(with: .opacity)) // Animación
                 }
             }
+            .animation(.easeInOut, value: selectedLocation)
+            .environmentObject(cards)
         }
-    }
-}
-#Preview {
-    ContentView()
 }

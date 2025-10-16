@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-struct chatBotView: View {
+struct chatBotView: View
+{
     // Usamos @StateObject para crear y mantener viva una instancia del ViewModel.
     @StateObject private var viewModel = ChatViewModel()
     
@@ -15,7 +16,8 @@ struct chatBotView: View {
     
     var body: some View {
         // ✅ Para que el título se vea correctamente, la vista debe estar dentro de un NavigationView
-        NavigationView {
+        NavigationView
+        {
             VStack(spacing: 0) { // Usamos spacing: 0 para controlar el layout precisamente
                 
                 // MARK: - Lista de Mensajes

@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC6D8D4C2E9D98A8009362A6 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = AC6D8D4B2E9D98A8009362A6 /* FirebaseAI */; };
-		AC6D8D4E2E9D98A8009362A6 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = AC6D8D4D2E9D98A8009362A6 /* FirebaseCore */; };
+		ACF249482EA0CF38008F7688 /* FirebaseAI in Frameworks */ = {isa = PBXBuildFile; productRef = ACF249472EA0CF38008F7688 /* FirebaseAI */; };
+		ACF2494A2EA0CF39008F7688 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = ACF249492EA0CF39008F7688 /* FirebaseCore */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +28,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AC6D8D4E2E9D98A8009362A6 /* FirebaseCore in Frameworks */,
-				AC6D8D4C2E9D98A8009362A6 /* FirebaseAI in Frameworks */,
+				ACF2494A2EA0CF39008F7688 /* FirebaseCore in Frameworks */,
+				ACF249482EA0CF38008F7688 /* FirebaseAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,8 +80,8 @@
 			);
 			name = GuIA;
 			packageProductDependencies = (
-				AC6D8D4B2E9D98A8009362A6 /* FirebaseAI */,
-				AC6D8D4D2E9D98A8009362A6 /* FirebaseCore */,
+				ACF249472EA0CF38008F7688 /* FirebaseAI */,
+				ACF249492EA0CF39008F7688 /* FirebaseCore */,
 			);
 			productName = GuIA;
 			productReference = AC8B59672E9569DA0075AC05 /* GuIA.app */;
@@ -112,7 +112,7 @@
 			mainGroup = AC8B595E2E9569DA0075AC05;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				AC6D8D4A2E9D98A8009362A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				ACF249462EA0CF38008F7688 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = AC8B59682E9569DA0075AC05 /* Products */;
@@ -275,6 +275,7 @@
 				DEVELOPMENT_TEAM = 6G95W52XWY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "GuIA necesita acceso tu ubicacion";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -303,6 +304,7 @@
 				DEVELOPMENT_TEAM = 6G95W52XWY;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "GuIA necesita acceso tu ubicacion";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -344,7 +346,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		AC6D8D4A2E9D98A8009362A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+		ACF249462EA0CF38008F7688 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
 			requirement = {
@@ -355,14 +357,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		AC6D8D4B2E9D98A8009362A6 /* FirebaseAI */ = {
+		ACF249472EA0CF38008F7688 /* FirebaseAI */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AC6D8D4A2E9D98A8009362A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = ACF249462EA0CF38008F7688 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAI;
 		};
-		AC6D8D4D2E9D98A8009362A6 /* FirebaseCore */ = {
+		ACF249492EA0CF39008F7688 /* FirebaseCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = AC6D8D4A2E9D98A8009362A6 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			package = ACF249462EA0CF38008F7688 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseCore;
 		};
 /* End XCSwiftPackageProductDependency section */

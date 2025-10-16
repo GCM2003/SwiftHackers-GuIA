@@ -21,10 +21,11 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct GuIAApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    @StateObject private var locationManager = LocationManager()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView().environmentObject(locationManager)
         }
     }
 }
